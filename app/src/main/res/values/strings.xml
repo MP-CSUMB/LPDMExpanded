@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Login Activity</string>
+    <string name="login">Login</string>
+    <string name="ldpm_expanded">LDPM Expanded</string>
+    <string name="create_an_account">Create an Account</string>
+    <string name="username">username</string>
+    <string name="password">password</string>
+    <string name="logout">Logout?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="isLoggedIn">isLoggedIn</string>
+    <string name="mPrefs">MyPrefs</string>
+    <string name="user_info">user_info</string>
+    <string name="admin">Admin</string>
+</resources>
