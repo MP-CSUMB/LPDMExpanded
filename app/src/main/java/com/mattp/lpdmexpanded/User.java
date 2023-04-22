@@ -8,10 +8,9 @@ import com.mattp.lpdmexpanded.db.UserDatabase;
 @Entity(tableName = UserDatabase.USER_TABLE)
 public class User {
 
-
-
     @PrimaryKey(autoGenerate = true)
     private int mUserId;
+
     private String mPassword;
     private String mUsername;
     private boolean isAdmin;
@@ -48,10 +47,10 @@ public class User {
         this.mUsername = username;
     }
 
-    public User(String username, String password) {
-        setUsername(username);
-        setPassword(password);
-        setIsAdmin(false);
+    public User(String username, String password, boolean isAdmin) {
+        this.setUsername(username);
+        this.setPassword(password);
+        this.setIsAdmin(isAdmin);
     }
 
 

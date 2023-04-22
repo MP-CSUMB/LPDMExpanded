@@ -28,8 +28,8 @@ import java.util.List;
 public class LoginActivity extends AppCompatActivity {
 
     TextView mLoginDisplay;
-    private static final String USER_ID_KEY = "com.example.loginactivity.userIdKey";
-    private static final String PREFERENCES_KEY = "com.example.loginactivity.PREFERENCES_KEY";
+    private static final String USER_ID_KEY = "com.mattp.lpdmexpanded.USER_ID_KEY";
+    private static final String PREFERENCES_KEY = "com.mattp.lpdmexpanded.PREFERENCES_KEY";
     private EditText mUsernameEditText;
     private EditText mPasswordEditText;
     private String mUsername;
@@ -38,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button mCreateAccountButton;
     private User mUser;
 
-    private int mUserId = -1;
+    private int mUserId;
 
     private UserDAO mUserDAO;
 
@@ -78,17 +78,22 @@ public class LoginActivity extends AppCompatActivity {
                 mUser = mUserDAO.getUserByUsername(mUsername);
 
                 if (mUser != null && mUser.getPassword().equals(mPassword)) {
-                    SharedPreferences.Editor editor = getSharedPreferences(PREFERENCES_KEY, MODE_PRIVATE).edit();
+                    mUserId = mUser.getUserId();
+                    mPreferences = getSharedPreferences(PREFERENCES_KEY, Context.MODE_PRIVATE);
+                    addUserToPreference(mUserId);
+                    SharedPreferences.Editor editor = mPreferences.edit();
                     editor.putString("username", mUser.getUsername());
+                    editor.putInt(USER_ID_KEY, mUserId);
                     editor.apply();
                     invalidateOptionsMenu();
 
                     Intent intent = new Intent(LoginActivity.this, LandingPage.class);
+                    intent.putExtra(USER_ID_KEY, mUserId);
                     startActivity(intent);
 
                 } else {
                     // Outputs an invalid input text response
-                    Toast.makeText(LoginActivity.this, "Invalid username or mPassword", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -102,13 +107,15 @@ public class LoginActivity extends AppCompatActivity {
                 boolean userMatch = false;
 
                 for (int i = 0; i < users.size(); i++) {
+//                    System.out.println(users.get(i).getUsername());
                     if (users.get(i).getUsername().equals(mUsername)) {
                         userMatch = true;
                     }
                 }
                 if (!userMatch) {
-                    User newUser = new User(mUsername, mPassword);
+                    User newUser = new User(mUsername, mPassword, false);
                     mUserDAO.insert(newUser);
+
                     Toast.makeText(LoginActivity.this, "Account created", Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(LoginActivity.this, LoginActivity.class);
@@ -127,6 +134,7 @@ public class LoginActivity extends AppCompatActivity {
         inflater.inflate(R.menu.menu_logout, menu);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -151,10 +159,8 @@ public class LoginActivity extends AppCompatActivity {
         return super.onPrepareOptionsMenu(menu);
     }
 
-
     public static Intent intentFactory(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
-
         return intent;
     }
 

@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
@@ -15,6 +16,8 @@ import androidx.room.Room;
 import com.mattp.lpdmexpanded.db.UserDAO;
 import com.mattp.lpdmexpanded.db.UserDatabase;
 import com.mattp.lpdmexpanded.databinding.ActivityMainBinding;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -29,19 +32,19 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String USER_ID_KEY = "com.example.loginactivity.userIdKey";
-    private static final String PREFERENCES_KEY = "com.example.loginactivity.PREFERENCES_KEY";
+    private static final String USER_ID_KEY = "com.mattp.lpdmexpanded.USER_ID_KEY";
+    private static final String PREFERENCES_KEY = "com.mattp.lpdmexpanded.PREFERENCES_KEY";
     private Button mLogin_button;
+    private TextView mTitle;
     private UserDAO mUserDAO;
 
-    User mUser;
 
 
-    private SharedPreferences mPreferences = null;
-    private int mUserId = -1;
+    private SharedPreferences mPreferences;
+    private int mUserId;
 
 
-    ActivityMainBinding mMainBinding;
+//    ActivityMainBinding mMainBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,45 +52,41 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         getDatabase();
-
+        wireUpDisplay();
+        getPrefs();
         checkForUser();
+
         addUserToPreference(mUserId);
-
-        mMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
-        View view = mMainBinding.getRoot();
-
-        setContentView(view);
-
-        // Initialize buttons
-        mLogin_button = mMainBinding.loginButton;
 
 
         // Check if the user is already logged in using sharedPreferences
-        SharedPreferences sharedPreferences = getSharedPreferences(PREFERENCES_KEY, MODE_PRIVATE);
-        boolean isLoggedIn = sharedPreferences.getBoolean(getString(R.string.isLoggedIn), false);
 
-        if (isLoggedIn) {
+        if (mUserId != -1) {
 
             // Since user is logged in use intent factory to jump to landing page
             Intent intent = new Intent(MainActivity.this, LandingPage.class);
+            intent.putExtra(USER_ID_KEY, mUserId);
             startActivity(intent);
 
             finish();
         } else {
-
-            // Since the user isn't logged in, activate visibility on the login and create account buttons
-            mLogin_button.setVisibility(View.VISIBLE);
-
             mLogin_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // Jump to the LoginActivity
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    intent.putExtra(USER_ID_KEY, mUserId);
                     startActivity(intent);
+                    finish();
                 }
             });
         }
 
+    }
+
+    private void wireUpDisplay() {
+        mLogin_button = findViewById(R.id.login_button);
+        mTitle = findViewById(R.id.title_textView);
     }
 
     private void addUserToPreference(int userId) {
@@ -115,41 +114,34 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-       if (mPreferences == null) {
-            getPrefs();
-        }
-        mUserId = mPreferences.getInt(USER_ID_KEY, -1);
+        mPreferences = this.getSharedPreferences(PREFERENCES_KEY, Context.MODE_PRIVATE);
 
         if (mUserId != -1) {
             return;
         }
 
+        if (mPreferences == null) {
+            getPrefs();
+        }
+        mUserId = mPreferences.getInt(USER_ID_KEY, -1);
+
         // do we have any users at all?
         List<User> users = mUserDAO.getAllUsers();
         if(users.size() <= 0) {
-            User defaultUser1 = new User("admin2", "admin2");
-            User defaultUser2 = new User("testuser1", "testuser1");
+            User defaultUser1 = new User("admin2", "admin2", true);
+
+            User defaultUser2 = new User("testuser1", "testuser1", false);
 
             mUserDAO.insert(defaultUser1);
             mUserDAO.insert(defaultUser2);
         }
-
-//        Intent intent = LoginActivity.intentFactory(this);
-//        startActivity(intent);
-
     }
+
 
     private void getPrefs() {
         mPreferences = this.getSharedPreferences(PREFERENCES_KEY, Context.MODE_PRIVATE);
+        mUserId = mPreferences.getInt(USER_ID_KEY, -1);
     }
-
-    public static Intent intentFactory(Context context, int userId) {
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra(USER_ID_KEY, userId);
-
-        return intent;
-    }
-
 
     private void logoutUser() {
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);

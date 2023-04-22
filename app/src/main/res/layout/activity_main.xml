@@ -7,9 +7,9 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/title_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/app_label_textView"
         android:text="@string/ldpm_expanded"
         android:gravity="center"
         android:textSize="50sp"
@@ -42,7 +42,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/app_label_textView" />
+        app:layout_constraintTop_toBottomOf="@+id/title_textView" />
 
 
 
