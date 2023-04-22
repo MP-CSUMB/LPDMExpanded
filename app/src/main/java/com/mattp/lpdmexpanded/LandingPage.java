@@ -29,6 +29,8 @@ public class LandingPage extends AppCompatActivity {
     private UserDAO mUserDAO;
     private int mUserId;
     private Button mAdminButton;
+    private Button mBattleButton;
+    private Button mSetTeamButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +60,28 @@ public class LandingPage extends AppCompatActivity {
             }
         });
 
+        mBattleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Jump to the BattleActivity
+                Intent intent = new Intent(LandingPage.this, BattleActivity.class);
+                intent.putExtra(USER_ID_KEY, mUserId);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        mSetTeamButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Jump to the SetTeamActivity
+                Intent intent = new Intent(LandingPage.this, SetTeamActivity.class);
+                intent.putExtra(USER_ID_KEY, mUserId);
+                startActivity(intent);
+                finish();
+            }
+        });
+
 
     }
 
@@ -70,6 +94,10 @@ public class LandingPage extends AppCompatActivity {
         } else {
             mAdminButton.setVisibility(View.GONE);
         }
+
+        mBattleButton = findViewById(R.id.battle_button);
+        mSetTeamButton = findViewById(R.id.team_button);
+
     }
 
     private void logoutUser() {

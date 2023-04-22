@@ -1,6 +1,6 @@
 package com.mattp.lpdmexpanded;
 
-import utilities.Dice;
+import com.mattp.lpdmexpanded.utilities.Dice;
 
 
 /*

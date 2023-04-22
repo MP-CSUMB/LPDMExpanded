@@ -4,7 +4,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import com.mattp.lpdmexpanded.db.MonsterDatabase;
-import com.mattp.lpdmexpanded.db.UserDatabase;
+import com.mattp.lpdmexpanded.utilities.Dice;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ public abstract class Monster {
      */
 
     @PrimaryKey(autoGenerate = true)
-    private int mUserId;
+    private int mMonsterId;
 
     protected enum ElementalType {
         ELECTRIC,
@@ -31,8 +31,8 @@ public abstract class Monster {
         WATER,
     }
 
-    private String name = "";
-    private static final double MAX_HP = 20.0;
+    private String mMonsterName = "";
+    private static final double MAX_HP = 40.0;
     private int attackMin = 1;
     private boolean fainted = false;
     protected int defensePoints = 10;
@@ -46,8 +46,8 @@ public abstract class Monster {
 
 
 
-    public Monster(String name, ElementalType type) {
-        this.name = name;
+    public Monster(String monsterName, ElementalType type) {
+        this.mMonsterName = monsterName;
         this.elements.add(type);
 
         setPhrase(this);
@@ -63,7 +63,7 @@ public abstract class Monster {
                 System.out.println("Can't have conflicting types!");
                 return -1;
             } else {
-                System.out.println(this.getName() + " now has " + type);
+                System.out.println(this.getmMonsterName() + " now has " + type);
                 this.elements.add(type);
                 return 0;
             }
@@ -92,15 +92,15 @@ public abstract class Monster {
         double attackValue = 1.0;
 
         if (this.isFainted()) {
-            System.out.println(this.getName() + " isn't conscious... it can't attack.");
+            System.out.println(this.getmMonsterName() + " isn't conscious... it can't attack.");
             return 0.0;
         } else {
-            System.out.println(this.getName() + " is attacking " + monster.getName() + ".");
+            System.out.println(this.getmMonsterName() + " is attacking " + monster.getmMonsterName() + ".");
             System.out.println(this.getPhrase());
 
             attackValue = calculateAttackPoints(this, monster.getElements());
 
-            System.out.println(this.getName() + " is attacking with " + attackValue);
+            System.out.println(this.getmMonsterName() + " is attacking with " + attackValue);
         }
 
         return monster.takeDamage(attackValue);
@@ -117,22 +117,22 @@ public abstract class Monster {
         }
 
         if (newAttackValue > 0) {
-            System.out.println(this.getName() + " is hit for " + newAttackValue + " damage!");
+            System.out.println(this.getmMonsterName() + " is hit for " + newAttackValue + " damage!");
             this.setHealthPoints(this.getHealthPoints() - newAttackValue);
         } else if (newAttackValue == 0){
 
-            System.out.println(this.getName() + " is nearly hit!");
+            System.out.println(this.getmMonsterName() + " is nearly hit!");
         }
 
         if (attackValue < calculateDefensePoints(this) / 2) {
-            System.out.println(this.getName() + " shrugs off the puny attack.");
+            System.out.println(this.getmMonsterName() + " shrugs off the puny attack.");
         }
 
         if (this.getHealthPoints() <= 0) {
-            System.out.println(this.getName() + " has faint--passed out. It's passed out.");
+            System.out.println(this.getmMonsterName() + " has faint--passed out. It's passed out.");
             this.setFainted(true);
         } else {
-            System.out.println(this.getName() + " has " + this.getHealthPoints() + " / " + this.MAX_HP + " HP remaining");
+            System.out.println(this.getmMonsterName() + " has " + this.getHealthPoints() + " / " + this.MAX_HP + " HP remaining");
         }
 
         return newAttackValue;
@@ -144,10 +144,10 @@ public abstract class Monster {
 
         if (defenseValue < monster.getDefenseMax() / 2.0 && defenseValue % 2 == 0) {
             defenseValue = (defenseValue + 1) * 2;
-            System.out.println(monster.getName() + " finds courage in the desperate situation!");
+            System.out.println(monster.getmMonsterName() + " finds courage in the desperate situation!");
         }
         if (defenseValue == monster.getDefenseMin()) {
-            System.out.println(monster.getName() + " is clearly not paying attention.");
+            System.out.println(monster.getmMonsterName() + " is clearly not paying attention.");
         }
 
         return defenseValue;
@@ -158,7 +158,7 @@ public abstract class Monster {
         int attackPoints = Dice.roll(monster.getAttackMin(), monster.getAttackMax());
         double modifier = 1.0;
 
-        System.out.println(monster.getName() + " rolls a " + attackPoints);
+        System.out.println(monster.getmMonsterName() + " rolls a " + attackPoints);
 
         for (int i = 0; i < enemyType.size(); i++) {
             modifier = modifier * attackModifier(enemyType.get(i));
@@ -240,9 +240,9 @@ public abstract class Monster {
         StringBuilder outputSB = new StringBuilder();
 
         if (!this.isFainted()) {
-            outputSB.append(this.getName() + " has " + this.getHealthPoints() + "/" + this.MAX_HP + " hp.\n");
+            outputSB.append(this.getmMonsterName() + " has " + this.getHealthPoints() + "/" + this.MAX_HP + " hp.\n");
         } else {
-            outputSB.append(this.getName() + " has fainted.\n");
+            outputSB.append(this.getmMonsterName() + " has fainted.\n");
 
         }
         if (this.getElements().size() > 1) {
@@ -272,13 +272,13 @@ public abstract class Monster {
     }
 
 
-    public String getName() {
-        return name;
+    public String getmMonsterName() {
+        return mMonsterName;
     }
 
 
-    public void setName(String name) {
-        this.name = name;
+    public void setmMonsterName(String mMonsterName) {
+        this.mMonsterName = mMonsterName;
     }
 
 
@@ -364,51 +364,4 @@ public abstract class Monster {
     public abstract void setAttackPoints();
 
     public abstract void setDefensePoints();
-}
-    @PrimaryKey(autoGenerate = true)
-    private int mUserId;
-
-    private String mPassword;
-    private String mUsername;
-    private boolean isAdmin;
-
-    public boolean getIsAdmin() {
-        return isAdmin;
-    }
-
-    public void setIsAdmin(boolean admin) {
-        isAdmin = admin;
-    }
-
-    public int getUserId() {
-        return mUserId;
-    }
-
-    public void setUserId(int userId) {
-        mUserId = userId;
-    }
-
-    public String getPassword() {
-        return mPassword;
-    }
-
-    public void setPassword(String password) {
-        mPassword = password;
-    }
-
-    public String getUsername() {
-        return mUsername;
-    }
-
-    public void setUsername(String username) {
-        this.mUsername = username;
-    }
-
-    public Monster(String username, String password, boolean isAdmin) {
-        this.setUsername(username);
-        this.setPassword(password);
-        this.setIsAdmin(isAdmin);
-    }
-
-
 }

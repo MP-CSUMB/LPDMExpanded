@@ -16,4 +16,6 @@
     <string name="grant_admin">Grant Admin</string>
     <string name="revoke_admin">Revoke Admin</string>
     <string name="admin_page">Admin Page</string>
+    <string name="battle">BATTLE!</string>
+    <string name="set_team">Set Team</string>
 </resources>

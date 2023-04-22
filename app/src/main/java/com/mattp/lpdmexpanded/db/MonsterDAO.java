@@ -7,6 +7,8 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.mattp.lpdmexpanded.Monster;
+
 import java.util.List;
 
 @Dao
@@ -22,7 +24,7 @@ public interface MonsterDAO {
     void delete(Monster monster);
 
     @Query("SELECT * FROM " + MonsterDatabase.MONSTER_TABLE + " WHERE mMonsterName = :monsterName")
-    Monster getMonsterByMonsterName(String monsterName);
+    Monster getMonsterByName(String monsterName);
 
     @Query("SELECT * FROM " + MonsterDatabase.MONSTER_TABLE + " WHERE mMonsterId = :monsterId")
     Monster getMonsterById(int monsterId);
