@@ -18,4 +18,12 @@
     <string name="admin_page">Admin Page</string>
     <string name="battle">BATTLE!</string>
     <string name="set_team">Set Team</string>
+    <string name="add_monster">Add Monster</string>
+    <string name="monster_name">Monster name</string>
+    <string name="fire_lizard">Fire Lizard</string>
+    <string name="weird_turtle">Weird Turtle</string>
+    <string name="set_your_team">Set Your Team</string>
+    <string name="create_monster">Create Monster</string>
+    <string name="flower_dino">Flower Dino</string>
+    <string name="electric_rat">Electric Rat</string>
 </resources>

@@ -6,30 +6,21 @@ import androidx.room.PrimaryKey;
 import com.mattp.lpdmexpanded.db.MonsterDatabase;
 import com.mattp.lpdmexpanded.utilities.Dice;
 
-import java.util.ArrayList;
-import java.util.List;
+/**
+ * @author Matthew Perona
+ * @since 12 - March - 2023
+ * Description Abstract Monster class from which we will add distinct monster classes for different monster versions.
+ * These will be differentiated by "elemental type" as well as base stats and will have "weakness" and "bonus" characteristics
+ * based on opposing types in battle. Will also implement a battle system that uses the Dice to create a randomly generated outcome
+ * for battle pairings.
+ */
 
 @Entity(tableName = MonsterDatabase.MONSTER_TABLE)
-public abstract class Monster {
-
-    /**
-     * @author Matthew Perona
-     * @since 12 - March - 2023
-     * Description Abstract Monster class from which we will add distinct monster classes for different monster versions.
-     * These will be differentiated by "elemental type" as well as base stats and will have "weakness" and "bonus" characteristics
-     * based on opposing types in battle. Will also implement a battle system that uses the Dice to create a randomly generated outcome
-     * for battle pairings.
-     */
+public class Monster {
 
     @PrimaryKey(autoGenerate = true)
     private int mMonsterId;
 
-    protected enum ElementalType {
-        ELECTRIC,
-        FIRE,
-        GRASS,
-        WATER,
-    }
 
     private String mMonsterName = "";
     private static final double MAX_HP = 40.0;
@@ -39,47 +30,88 @@ public abstract class Monster {
     private int defenseMin = 1;
     private int defenseMax = 10;
     private int attackMax = 10;
+    protected int attackPoints = 10;
     private Double healthPoints = MAX_HP;
     private String phrase = "";
-    private List<ElementalType> elements = new ArrayList<>();
-    protected int attackPoints = 10;
+    private String mElementType;
+    private String mMonsterType;
 
 
 
-    public Monster(String monsterName, ElementalType type) {
+    private String skillOne;
+    private String skillTwo;
+
+
+
+    public Monster(String monsterName, String monsterType) {
         this.mMonsterName = monsterName;
-        this.elements.add(type);
+        this.skillOne = "Attack";
+
+        if (monsterType.equals("Fire Lizard")) {
+            setAttackMin(8);
+            setAttackMax(10);
+            setDefenseMin(1);
+            setDefenseMax(4);
+            setElementType("FIRE");
+        }
+        if (monsterType.equals("Weird Turtle")) {
+            setAttackMin(3);
+            setAttackMax(8);
+            setDefenseMin(6);
+            setDefenseMax(8);
+            setElementType("WATER");
+        }
+        if (monsterType.equals("Electric Rat")) {
+            setAttackMin(5);
+            setAttackMax(8);
+            setDefenseMin(5);
+            setDefenseMax(8);
+            setElementType("ELECTRIC");
+        }
+        if (monsterType.equals("Flower Dino")) {
+            setAttackMin(4);
+            setAttackMax(8);
+            setDefenseMin(3);
+            setDefenseMax(6);
+            setElementType("GRASS");
+        }
 
         setPhrase(this);
     }
 
-    // Sets and adds additional elemental types to a monster.
-    public int setType(ElementalType type) {
-        for (int i = 0; i < this.getElements().size(); i++) {
-            if (this.getElements().get(i).equals(type)) {
-                System.out.println(type + " already set!");
-                return 1;
-            } else if (this.attackModifier(type) > 1.0) {
-                System.out.println("Can't have conflicting types!");
-                return -1;
-            } else {
-                System.out.println(this.getmMonsterName() + " now has " + type);
-                this.elements.add(type);
-                return 0;
-            }
-        }
-        return 0;
+    public void setElementType(String type) {
+        this.mElementType = type;
+    }
+
+    public String getElementType() {
+        return mElementType;
+    }
+
+    public String getMonsterType() {
+        return mMonsterType;
+    }
+
+    public void setMonsterType(String monsterType) {
+        this.mMonsterType = monsterType;
+    }
+
+    public int getMonsterId() {
+        return mMonsterId;
+    }
+
+    public void setMonsterId(int MonsterId) {
+        this.mMonsterId = MonsterId;
     }
 
     // Sets the speech phrases for the monsters.
     private static Monster setPhrase(Monster monster) {
-        if (monster.getClass().equals(WeirdTurtle.class)) {
+        if (monster.getMonsterType().equals("Weird Turtle")) {
             monster.setPhrase("'Urtle!");
-        } else if (monster.getClass().equals(FireLizard.class)) {
+        } else if (monster.getMonsterType().equals("Fire Lizard")) {
             monster.setPhrase("Deal with it.");
-        } else if (monster.getClass().equals(ElectricRat.class)) {
+        } else if (monster.getMonsterType().equals("Electric Rat")) {
             monster.setPhrase("'Lectric!");
-        } else if (monster.getClass().equals(FlowerDino.class)) {
+        } else if (monster.getMonsterType().equals("Flower Dino")) {
             monster.setPhrase("Flowah!");
         } else {
             monster.setPhrase("Mewtw... ahem... No phrase for me!");
@@ -92,15 +124,15 @@ public abstract class Monster {
         double attackValue = 1.0;
 
         if (this.isFainted()) {
-            System.out.println(this.getmMonsterName() + " isn't conscious... it can't attack.");
+            System.out.println(this.getMonsterName() + " isn't conscious... it can't attack.");
             return 0.0;
         } else {
-            System.out.println(this.getmMonsterName() + " is attacking " + monster.getmMonsterName() + ".");
+            System.out.println(this.getMonsterName() + " is attacking " + monster.getMonsterName() + ".");
             System.out.println(this.getPhrase());
 
-            attackValue = calculateAttackPoints(this, monster.getElements());
+            attackValue = calculateAttackPoints(this, monster.getElementType());
 
-            System.out.println(this.getmMonsterName() + " is attacking with " + attackValue);
+            System.out.println(this.getMonsterName() + " is attacking with " + attackValue);
         }
 
         return monster.takeDamage(attackValue);
@@ -117,22 +149,22 @@ public abstract class Monster {
         }
 
         if (newAttackValue > 0) {
-            System.out.println(this.getmMonsterName() + " is hit for " + newAttackValue + " damage!");
+            System.out.println(this.getMonsterName() + " is hit for " + newAttackValue + " damage!");
             this.setHealthPoints(this.getHealthPoints() - newAttackValue);
         } else if (newAttackValue == 0){
 
-            System.out.println(this.getmMonsterName() + " is nearly hit!");
+            System.out.println(this.getMonsterName() + " is nearly hit!");
         }
 
         if (attackValue < calculateDefensePoints(this) / 2) {
-            System.out.println(this.getmMonsterName() + " shrugs off the puny attack.");
+            System.out.println(this.getMonsterName() + " shrugs off the puny attack.");
         }
 
         if (this.getHealthPoints() <= 0) {
-            System.out.println(this.getmMonsterName() + " has faint--passed out. It's passed out.");
+            System.out.println(this.getMonsterName() + " has faint--passed out. It's passed out.");
             this.setFainted(true);
         } else {
-            System.out.println(this.getmMonsterName() + " has " + this.getHealthPoints() + " / " + this.MAX_HP + " HP remaining");
+            System.out.println(this.getMonsterName() + " has " + this.getHealthPoints() + " / " + this.MAX_HP + " HP remaining");
         }
 
         return newAttackValue;
@@ -144,25 +176,23 @@ public abstract class Monster {
 
         if (defenseValue < monster.getDefenseMax() / 2.0 && defenseValue % 2 == 0) {
             defenseValue = (defenseValue + 1) * 2;
-            System.out.println(monster.getmMonsterName() + " finds courage in the desperate situation!");
+            System.out.println(monster.getMonsterName() + " finds courage in the desperate situation!");
         }
         if (defenseValue == monster.getDefenseMin()) {
-            System.out.println(monster.getmMonsterName() + " is clearly not paying attention.");
+            System.out.println(monster.getMonsterName() + " is clearly not paying attention.");
         }
 
         return defenseValue;
     }
 
     // Calculates the attack values for a monster for a round (method call) from a random roll within the range of attack values.
-    public double calculateAttackPoints(Monster monster, List<ElementalType> enemyType) {
+    public double calculateAttackPoints(Monster monster, String enemyType) {
         int attackPoints = Dice.roll(monster.getAttackMin(), monster.getAttackMax());
         double modifier = 1.0;
 
-        System.out.println(monster.getmMonsterName() + " rolls a " + attackPoints);
+        System.out.println(monster.getMonsterName() + " rolls a " + attackPoints);
 
-        for (int i = 0; i < enemyType.size(); i++) {
-            modifier = modifier * attackModifier(enemyType.get(i));
-        }
+        modifier = modifier * attackModifier(enemyType);
 
         if (modifier >= 2.0) {
             System.out.println("It's su-- *cough* very effective!");
@@ -172,7 +202,7 @@ public abstract class Monster {
     }
 
 
-    /* Establshes the damage modifiers using the provided table.
+    /* Establishes the damage modifiers using the provided table.
      *    x                  Defending
      * Attack    Electric    Fire    Grass   Water
      * Electric  0.5         1.0     0.5     2.0
@@ -182,7 +212,7 @@ public abstract class Monster {
      *
      * With any unknown types treated as no modifier (x1.0)
      * */
-    protected double attackModifier(ElementalType defending) {
+    protected double attackModifier(String defending) {
         int attackIndex = 4;
         int defendIndex = 4;
 
@@ -193,26 +223,25 @@ public abstract class Monster {
                 {1.0, 2.0, 0.5, 0.5, 1.0},
                 {1.0, 1.0, 1.0, 1.0, 1.0} };
 
-        for (ElementalType element : this.getElements()) {
-            if (element.equals(ElementalType.ELECTRIC)) {
+            if (mElementType.equals("ELECTRIC")) {
                 attackIndex = 0;
-            } else if (element.equals(ElementalType.FIRE)) {
+            } else if (mElementType.equals("FIRE")) {
                 attackIndex = 1;
-            } else if (element.equals(ElementalType.GRASS)) {
+            } else if (mElementType.equals("GRASS")) {
                 attackIndex = 2;
-            } else if (element.equals(ElementalType.WATER)) {
+            } else if (mElementType.equals("WATER")) {
                 attackIndex = 3;
             } else {
                 attackIndex = 4;
             }
 
-            if (defending.equals(ElementalType.ELECTRIC)) {
+            if (defending.equals("ELECTRIC")) {
                 defendIndex = 0;
-            } else if (defending.equals(ElementalType.FIRE)) {
+            } else if (defending.equals("FIRE")) {
                 defendIndex = 1;
-            } else if (defending.equals(ElementalType.GRASS)) {
+            } else if (defending.equals("GRASS")) {
                 defendIndex = 2;
-            } else if (defending.equals(ElementalType.WATER)) {
+            } else if (defending.equals("WATER")) {
                 defendIndex = 3;
             } else {
                 defendIndex = 4;
@@ -221,7 +250,6 @@ public abstract class Monster {
             if (attackIndex != 4 && defendIndex != 4) {
                 return attackModifierTable[attackIndex][defendIndex];
             }
-        }
         return attackModifierTable[attackIndex][defendIndex];
     }
 
@@ -240,23 +268,13 @@ public abstract class Monster {
         StringBuilder outputSB = new StringBuilder();
 
         if (!this.isFainted()) {
-            outputSB.append(this.getmMonsterName() + " has " + this.getHealthPoints() + "/" + this.MAX_HP + " hp.\n");
+            outputSB.append(this.getMonsterName() + " has " + this.getHealthPoints() + "/" + this.MAX_HP + " hp.\n");
         } else {
-            outputSB.append(this.getmMonsterName() + " has fainted.\n");
+            outputSB.append(this.getMonsterName() + " has fainted.\n");
 
         }
-        if (this.getElements().size() > 1) {
-            outputSB.append("Elemental type: ");
-            for (int i = 0; i < this.getElements().size(); i++) {
-                if (i + 1 == this.getElements().size()) {
-                    outputSB.append(this.getElements().get(i));
-                } else {
-                    outputSB.append(this.getElements().get(i) + ", ");
-                }
-            }
-        } else {
-            outputSB.append("Elemental type: " + this.getElements().get(0));
-        }
+
+        outputSB.append("Elemental type: " + this.getElementType());
 
         return outputSB.toString();
     }
@@ -272,12 +290,12 @@ public abstract class Monster {
     }
 
 
-    public String getmMonsterName() {
+    public String getMonsterName() {
         return mMonsterName;
     }
 
 
-    public void setmMonsterName(String mMonsterName) {
+    public void setMonsterName(String mMonsterName) {
         this.mMonsterName = mMonsterName;
     }
 
@@ -342,11 +360,6 @@ public abstract class Monster {
     }
 
 
-    public List<ElementalType> getElements() {
-        return elements;
-    }
-
-
     public int getAttackPoints() {
         return attackPoints;
     }
@@ -361,7 +374,27 @@ public abstract class Monster {
         this.defensePoints = defensePoints;
     }
 
-    public abstract void setAttackPoints();
+    public void setAttackPoints() {
+        this.attackPoints = Dice.roll(this.attackMin, this.attackMax);
+    }
 
-    public abstract void setDefensePoints();
+    public void setDefensePoints() {
+        this.defensePoints = Dice.roll(this.defenseMin, this.defenseMax);
+    }
+
+    public String getSkillOne() {
+        return skillOne;
+    }
+
+    public void setSkillOne(String skillOne) {
+        this.skillOne = skillOne;
+    }
+
+    public String getSkillTwo() {
+        return skillTwo;
+    }
+
+    public void setSkillTwo(String skillTwo) {
+        this.skillTwo = skillTwo;
+    }
 }

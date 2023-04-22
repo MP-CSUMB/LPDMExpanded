@@ -5,6 +5,8 @@ import androidx.room.PrimaryKey;
 
 import com.mattp.lpdmexpanded.db.UserDatabase;
 
+import java.util.ArrayList;
+
 @Entity(tableName = UserDatabase.USER_TABLE)
 public class User {
 
@@ -14,6 +16,16 @@ public class User {
     private String mPassword;
     private String mUsername;
     private boolean isAdmin;
+    private String monsterOne;
+
+
+    public void setMonsterOne(String monsterName) {
+        this.monsterOne = monsterName;
+    }
+
+    public String getMonsterOne() {
+        return monsterOne;
+    }
 
     public boolean getIsAdmin() {
         return isAdmin;
@@ -51,6 +63,7 @@ public class User {
         this.setUsername(username);
         this.setPassword(password);
         this.setIsAdmin(isAdmin);
+        this.setMonsterOne("Pick-Up-Shoes");
     }
 
 

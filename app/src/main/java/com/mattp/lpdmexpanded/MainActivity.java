@@ -15,11 +15,11 @@ import androidx.room.Room;
 
 import com.mattp.lpdmexpanded.db.UserDAO;
 import com.mattp.lpdmexpanded.db.UserDatabase;
-import com.mattp.lpdmexpanded.databinding.ActivityMainBinding;
-
-import org.w3c.dom.Text;
+import com.mattp.lpdmexpanded.db.MonsterDAO;
+import com.mattp.lpdmexpanded.db.MonsterDatabase;
 
 import java.util.List;
+
 
 /**
  * @Author: Matthew Perona
@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     private Button mLogin_button;
     private TextView mTitle;
     private UserDAO mUserDAO;
+    private MonsterDAO mMonsterDAO;
+
 
 
 
@@ -129,11 +131,14 @@ public class MainActivity extends AppCompatActivity {
         List<User> users = mUserDAO.getAllUsers();
         if(users.size() <= 0) {
             User defaultUser1 = new User("admin2", "admin2", true);
-
             User defaultUser2 = new User("testuser1", "testuser1", false);
+            mUserDAO.insert(defaultUser1, defaultUser2);
 
-            mUserDAO.insert(defaultUser1);
-            mUserDAO.insert(defaultUser2);
+            Monster defaultMonster1 = new Monster("Pick-Up-Shoes", "Electric Rat");
+            Monster defaultMonster2 = new Monster("Squirrel Hole", "Weird Turtle");
+            Monster defaultMonster3 = new Monster("Shard Man", "Fire Lizard");
+            Monster defaultMonster4 = new Monster("Why", "Flower Dino");
+            mMonsterDAO.insert(defaultMonster1, defaultMonster2, defaultMonster3, defaultMonster4);
         }
     }
 

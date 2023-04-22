@@ -31,6 +31,7 @@ public class LandingPage extends AppCompatActivity {
     private Button mAdminButton;
     private Button mBattleButton;
     private Button mSetTeamButton;
+    private Button mCreateMonsterButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +98,7 @@ public class LandingPage extends AppCompatActivity {
 
         mBattleButton = findViewById(R.id.battle_button);
         mSetTeamButton = findViewById(R.id.team_button);
+        mCreateMonsterButton = findViewById(R.id.create_monster);
 
     }
 

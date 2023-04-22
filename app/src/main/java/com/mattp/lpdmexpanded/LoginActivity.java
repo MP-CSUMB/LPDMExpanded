@@ -107,7 +107,6 @@ public class LoginActivity extends AppCompatActivity {
                 boolean userMatch = false;
 
                 for (int i = 0; i < users.size(); i++) {
-//                    System.out.println(users.get(i).getUsername());
                     if (users.get(i).getUsername().equals(mUsername)) {
                         userMatch = true;
                     }

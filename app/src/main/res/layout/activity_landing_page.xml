@@ -29,7 +29,6 @@
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         tools:visibility="visible" />
 
@@ -39,11 +38,23 @@
         android:layout_height="60dp"
         android:text="@string/set_team"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/admin_button"
+        app:layout_constraintBottom_toTopOf="@+id/create_monster"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/battle_button"
         app:layout_constraintVertical_bias="0.041" />
+
+    <Button
+        android:id="@+id/create_monster"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:text="@string/create_monster"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/admin_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/team_button"
+        app:layout_constraintVertical_bias="0.681" />
 
     <Button
         android:id="@+id/battle_button"
@@ -53,7 +64,6 @@
         android:text="@string/battle"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/app_label_textView" />
 
