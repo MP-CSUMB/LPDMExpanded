@@ -6,4 +6,93 @@
     android:layout_height="match_parent"
     tools:context=".BattleActivity">
 
+
+    <TextView
+        android:id="@+id/enemy_monster_text"
+        android:layout_width="288dp"
+        android:layout_height="232dp"
+        android:layout_marginTop="24dp"
+        android:gravity="start"
+        android:text=""
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.13"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/my_monster_text"
+        android:layout_width="283dp"
+        android:layout_height="222dp"
+        android:layout_marginTop="4dp"
+        android:gravity="end"
+        android:text=""
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.804"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/enemy_monster_text" />
+
+    <TextView
+        android:id="@+id/ability_counter_text"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="4dp"
+        android:gravity="center"
+        android:text=""
+        android:textSize="50sp"
+        app:layout_constraintTop_toBottomOf="@+id/ability_button"
+        tools:layout_editor_absoluteX="259dp" />
+
+    <TextView
+        android:id="@+id/outcome_text"
+        android:layout_width="300dp"
+        android:layout_height="250dp"
+        android:gravity="center"
+        android:text=""
+        android:textSize="40sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.250" />
+
+    <Button
+        android:id="@+id/attack_button"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginBottom="132dp"
+        android:text="@string/attack"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ability_button"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/ability_button"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginBottom="132dp"
+        android:text="@string/ability"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/exit_button"
+        android:layout_width="163dp"
+        android:layout_height="71dp"
+        android:text="@string/exit"
+        android:textSize="20sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.074"
+        tools:visibility="visible" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

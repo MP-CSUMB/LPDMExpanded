@@ -23,14 +23,14 @@ public class Monster {
 
 
     private String mMonsterName = "";
-    private static final double MAX_HP = 40.0;
+    private static final double MAX_HP = 20.0;
     private int attackMin = 1;
     private boolean fainted = false;
-    protected int defensePoints = 10;
+    private int defensePoints = 10;
     private int defenseMin = 1;
     private int defenseMax = 10;
     private int attackMax = 10;
-    protected int attackPoints = 10;
+    private int attackPoints = 10;
     private Double healthPoints = MAX_HP;
     private String phrase = "";
     private String mElementType;
@@ -45,38 +45,44 @@ public class Monster {
 
     public Monster(String monsterName, String monsterType) {
         this.mMonsterName = monsterName;
-        this.skillOne = "Attack";
+        this.mMonsterType = monsterType;
+        this.setSkillOne("Attack");
 
-        if (monsterType.equals("Fire Lizard")) {
-            setAttackMin(8);
-            setAttackMax(10);
-            setDefenseMin(1);
-            setDefenseMax(4);
-            setElementType("FIRE");
+
+        if (mMonsterType.equals("Fire Lizard")) {
+            this.setAttackMin(8);
+            this.setAttackMax(10);
+            this.setDefenseMin(1);
+            this.setDefenseMax(4);
+            this.setElementType("FIRE");
+            this.setSkillTwo("Get Warm");
         }
-        if (monsterType.equals("Weird Turtle")) {
-            setAttackMin(3);
-            setAttackMax(8);
-            setDefenseMin(6);
-            setDefenseMax(8);
-            setElementType("WATER");
+        if (mMonsterType.equals("Weird Turtle")) {
+            this.setAttackMin(3);
+            this.setAttackMax(8);
+            this.setDefenseMin(6);
+            this.setDefenseMax(8);
+            this.setElementType("WATER");
+            this.setSkillTwo("Gentle Mist");
         }
-        if (monsterType.equals("Electric Rat")) {
-            setAttackMin(5);
-            setAttackMax(8);
-            setDefenseMin(5);
-            setDefenseMax(8);
-            setElementType("ELECTRIC");
+        if (mMonsterType.equals("Electric Rat")) {
+            this.setAttackMin(5);
+            this.setAttackMax(8);
+            this.setDefenseMin(5);
+            this.setDefenseMax(8);
+            this.setElementType("ELECTRIC");
+            this.setSkillTwo("Static Shock");
         }
-        if (monsterType.equals("Flower Dino")) {
-            setAttackMin(4);
-            setAttackMax(8);
-            setDefenseMin(3);
-            setDefenseMax(6);
-            setElementType("GRASS");
+        if (mMonsterType.equals("Flower Dino")) {
+            this.setAttackMin(4);
+            this.setAttackMax(8);
+            this.setDefenseMin(3);
+            this.setDefenseMax(6);
+            this.setElementType("GRASS");
+            this.setSkillTwo("Leaf Me Alone");
         }
 
-        setPhrase(this);
+//        setPhrase(this);
     }
 
     public void setElementType(String type) {
@@ -104,20 +110,20 @@ public class Monster {
     }
 
     // Sets the speech phrases for the monsters.
-    private static Monster setPhrase(Monster monster) {
-        if (monster.getMonsterType().equals("Weird Turtle")) {
-            monster.setPhrase("'Urtle!");
-        } else if (monster.getMonsterType().equals("Fire Lizard")) {
-            monster.setPhrase("Deal with it.");
-        } else if (monster.getMonsterType().equals("Electric Rat")) {
-            monster.setPhrase("'Lectric!");
-        } else if (monster.getMonsterType().equals("Flower Dino")) {
-            monster.setPhrase("Flowah!");
-        } else {
-            monster.setPhrase("Mewtw... ahem... No phrase for me!");
-        }
-        return monster;
-    }
+//    private static Monster setPhrase(Monster monster) {
+//        if (monster.getMonsterType().equals("Weird Turtle")) {
+//            monster.setPhrase("'Urtle!");
+//        } else if (monster.getMonsterType().equals("Fire Lizard")) {
+//            monster.setPhrase("Deal with it.");
+//        } else if (monster.getMonsterType().equals("Electric Rat")) {
+//            monster.setPhrase("'Lectric!");
+//        } else if (monster.getMonsterType().equals("Flower Dino")) {
+//            monster.setPhrase("Flowah!");
+//        } else {
+//            monster.setPhrase("Mewtw... ahem... No phrase for me!");
+//        }
+//        return monster;
+//    }
 
     // Performs the attack function for the monsters. This will also print out the details of the battle.
     public double attack(Monster monster) {

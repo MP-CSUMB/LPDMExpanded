@@ -63,7 +63,7 @@ public class User {
         this.setUsername(username);
         this.setPassword(password);
         this.setIsAdmin(isAdmin);
-        this.setMonsterOne("Pick-Up-Shoes");
+        this.setMonsterOne("Electric Rat");
     }
 
 

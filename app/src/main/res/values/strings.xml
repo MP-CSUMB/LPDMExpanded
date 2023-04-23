@@ -26,4 +26,15 @@
     <string name="create_monster">Create Monster</string>
     <string name="flower_dino">Flower Dino</string>
     <string name="electric_rat">Electric Rat</string>
+    <string name="ability_select">Ability Select</string>
+    <string name="get_warm">Get Warm</string>
+    <string name="gentle_mist">Gentle Mist</string>
+    <string name="static_shock">Static Shock</string>
+    <string name="leaf_me_alone">Leaf Me Alone</string>
+    <string name="punch_a_lot">Punch A Lot</string>
+    <string name="random_ability">Random Ability</string>
+    <string name="use_those_feet">Use Those Feet</string>
+    <string name="attack">Attack</string>
+    <string name="ability">Ability</string>
+    <string name="exit">Exit</string>
 </resources>

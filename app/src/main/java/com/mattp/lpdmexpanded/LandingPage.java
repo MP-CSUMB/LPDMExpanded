@@ -83,6 +83,17 @@ public class LandingPage extends AppCompatActivity {
             }
         });
 
+        mCreateMonsterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Jump to the SetTeamActivity
+                Intent intent = new Intent(LandingPage.this, CreateMonsterActivity.class);
+                intent.putExtra(USER_ID_KEY, mUserId);
+                startActivity(intent);
+                finish();
+            }
+        });
+
 
     }
 

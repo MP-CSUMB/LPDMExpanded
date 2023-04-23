@@ -17,6 +17,8 @@ import com.mattp.lpdmexpanded.db.UserDAO;
 import com.mattp.lpdmexpanded.db.UserDatabase;
 import com.mattp.lpdmexpanded.db.MonsterDAO;
 import com.mattp.lpdmexpanded.db.MonsterDatabase;
+import com.mattp.lpdmexpanded.db.AbilityDAO;
+import com.mattp.lpdmexpanded.db.AbilityDatabase;
 
 import java.util.List;
 
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView mTitle;
     private UserDAO mUserDAO;
     private MonsterDAO mMonsterDAO;
+    private AbilityDAO mAbilityDAO;
 
 
 
@@ -105,6 +108,16 @@ public class MainActivity extends AppCompatActivity {
                 .allowMainThreadQueries()
                 .build()
                 .getUserDAO();
+
+        mMonsterDAO = Room.databaseBuilder(this, MonsterDatabase.class, MonsterDatabase.MONSTER_DB_NAME)
+                .allowMainThreadQueries()
+                .build()
+                .getMonsterDAO();
+
+        mAbilityDAO = Room.databaseBuilder(this, AbilityDatabase.class, AbilityDatabase.ABILITY_DB_NAME)
+                .allowMainThreadQueries()
+                .build()
+                .getAbilityDAO();
     }
 
     private void checkForUser() {
@@ -134,11 +147,30 @@ public class MainActivity extends AppCompatActivity {
             User defaultUser2 = new User("testuser1", "testuser1", false);
             mUserDAO.insert(defaultUser1, defaultUser2);
 
-            Monster defaultMonster1 = new Monster("Pick-Up-Shoes", "Electric Rat");
-            Monster defaultMonster2 = new Monster("Squirrel Hole", "Weird Turtle");
-            Monster defaultMonster3 = new Monster("Shard Man", "Fire Lizard");
-            Monster defaultMonster4 = new Monster("Why", "Flower Dino");
-            mMonsterDAO.insert(defaultMonster1, defaultMonster2, defaultMonster3, defaultMonster4);
+            Monster defaultMonster1 = new Monster("Electric Rat", "Electric Rat");
+            defaultMonster1.setSkillOne("Attack");
+            defaultMonster1.setSkillTwo("Static Shock");
+            mMonsterDAO.insert(defaultMonster1);
+            Monster defaultMonster2 = new Monster("Weird Turtle", "Weird Turtle");
+            defaultMonster1.setSkillOne("Attack");
+            defaultMonster1.setSkillTwo("Gentle Mist");
+            mMonsterDAO.insert(defaultMonster2);
+            Monster defaultMonster3 = new Monster("Fire Lizard", "Fire Lizard");
+            defaultMonster1.setSkillOne("Attack");
+            defaultMonster1.setSkillTwo("Get Warm");
+            mMonsterDAO.insert(defaultMonster3);
+            Monster defaultMonster4 = new Monster("Flower Dino", "Flower Dino");
+            defaultMonster1.setSkillOne("Attack");
+            defaultMonster1.setSkillTwo("Leaf Me Alone");
+            mMonsterDAO.insert(defaultMonster4);
+
+            Ability defaultAbility1 = new Ability("Attack", "", 1, -1);
+            Ability defaultAbility2 = new Ability("Use Those Feet", "", 1.5, 3);
+            Ability defaultAbility3 = new Ability("Get Warm", "", 1.5, 3);
+            Ability defaultAbility4 = new Ability("Leaf Me Alone", "", 1.5, 3);
+            Ability defaultAbility5 = new Ability("Static Shock", "", 1.5, 3);
+            Ability defaultAbility6 = new Ability("Gentle Mist", "", 1.5, 3);
+            mAbilityDAO.insert(defaultAbility1, defaultAbility2, defaultAbility3, defaultAbility4, defaultAbility5, defaultAbility6);
         }
     }
 

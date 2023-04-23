@@ -12,6 +12,9 @@
         android:theme="@style/Theme.LoginActivity"
         tools:targetApi="31">
         <activity
+            android:name=".AbilitySelectActivity"
+            android:exported="false" />
+        <activity
             android:name=".CreateMonsterActivity"
             android:exported="false" />
         <activity

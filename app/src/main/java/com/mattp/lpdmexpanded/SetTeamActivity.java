@@ -53,7 +53,7 @@ public class SetTeamActivity extends AppCompatActivity {
 
         mBack_button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 // Jump to the LandingPage
                 Intent intent = new Intent(SetTeamActivity.this, LandingPage.class);
                 intent.putExtra(USER_ID_KEY, mUserId);
@@ -65,17 +65,20 @@ public class SetTeamActivity extends AppCompatActivity {
         mAdd_Monster_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean monsterMatch = false;
 
                 mMonsterName = mMonsterNameEditText.getText().toString();
+                mMonster = mMonsterDAO.getMonsterByName(mMonsterName);
 
-                if (!monsterMatch) {
+
+                if (mMonster != null) {
                     mUser.setMonsterOne(mMonsterName);
                     mUserDAO.update(mUser);
-                    mMonster = mMonsterDAO.getMonsterByName(mMonsterName);
-                    mMonsterDAO.insert(mMonster);
-                    String displayText = mUser.getMonsterOne() + "\n" + mMonster.getMonsterType();
+                    String displayText = mUser.getMonsterOne() + "\n" + mMonster.getMonsterType() + "\n" + "Ability:\n" + mMonster.getSkillTwo();
+                    System.out.println(displayText);
                     monsterDisplay.setText(displayText);
+                    SharedPreferences.Editor editor = mPreferences.edit();
+                    editor.putInt(MONSTER_KEY, mMonster.getMonsterId());
+                    editor.apply();
                 } else {
                     Toast.makeText(SetTeamActivity.this, "Not a valid Monster", Toast.LENGTH_SHORT).show();
                 }
@@ -86,7 +89,8 @@ public class SetTeamActivity extends AppCompatActivity {
     private void wireUpDisplay() {
         mMonsterNameEditText = findViewById(R.id.monster_name_edit_text);
         mAdd_Monster_button = findViewById(R.id.add_monster_button);
-
+        mBack_button = findViewById(R.id.back_button);
+        monsterDisplay = findViewById(R.id.team_viewer);
     }
 
     private void getDatabase() {
@@ -94,6 +98,7 @@ public class SetTeamActivity extends AppCompatActivity {
                 .allowMainThreadQueries()
                 .build()
                 .getUserDAO();
+
         mMonsterDAO = Room.databaseBuilder(this, MonsterDatabase.class, MonsterDatabase.MONSTER_DB_NAME)
                 .allowMainThreadQueries()
                 .build()

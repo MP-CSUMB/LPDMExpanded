@@ -39,7 +39,7 @@
         android:layout_marginBottom="8dp"
         android:text="@string/fire_lizard"
         android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/Flower_Dino_button"
+        app:layout_constraintBottom_toTopOf="@+id/flower_Dino_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/monster_name_edit_text"
         app:layout_constraintVertical_bias="0.514" />
@@ -52,13 +52,13 @@
         android:layout_marginBottom="8dp"
         android:text="@string/weird_turtle"
         android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/electric_rat_button"
+        app:layout_constraintBottom_toTopOf="@+id/electric_Rat_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/fire_lizard_button"
         app:layout_constraintTop_toBottomOf="@+id/monster_name_edit_text" />
 
     <Button
-        android:id="@+id/Flower_Dino_button"
+        android:id="@+id/flower_Dino_button"
         android:layout_width="150dp"
         android:layout_height="60dp"
         android:layout_marginStart="36dp"
@@ -69,7 +69,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/electric_rat_button"
+        android:id="@+id/electric_Rat_button"
         android:layout_width="150dp"
         android:layout_height="60dp"
         android:layout_marginEnd="24dp"
@@ -79,7 +79,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.474"
-        app:layout_constraintStart_toEndOf="@+id/Flower_Dino_button" />
+        app:layout_constraintStart_toEndOf="@+id/flower_Dino_button" />
 
     <Button
         android:id="@+id/back_button"
